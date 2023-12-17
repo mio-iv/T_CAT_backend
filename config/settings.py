@@ -1,13 +1,18 @@
-import openai
 import os
 from pathlib import Path
 
+from dotenv import load_dotenv
+
 BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv(os.path.join(BASE_DIR, '.env'))
 
 # 環境変数
 SECRET_KEY = "django-insecure-^n%r8%&(h^o3hhthclq$lie!k21+ocu=jw5gds$pbq*9t0+wo="
 DEBUG = True
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+
+os.environ["DJANGO_SETTINGS_MODULE"] = "config.settings"
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -16,6 +21,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "rest_framework",
+    "drf_spectacular",
     "T_CAT.apps.TCatConfig",
 ]
 
@@ -34,7 +41,7 @@ ROOT_URLCONF = "config.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [os.path.join(BASE_DIR, "templates")],
+        "DIRS": [],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -82,3 +89,16 @@ USE_TZ = True
 STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+REST_FRAMEWORK = {
+    "DATETIME_FORMAT": "iso-8601",
+    "DATETIME_INPUT_FORMATS": ["%Y/%m/%d %H:%M:%S","iso-8601"],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'T_CAT',
+    'DESCRIPTION': '詳細',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,  # api/schemaを表示しない
+}

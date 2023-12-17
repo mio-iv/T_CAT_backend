@@ -14,7 +14,7 @@ createsuperuser:
 
 .PHONY: migrations
 migrations:
-	python manage.py migrations
+	python manage.py makemigrations
 
 .PHONY: showmigrations
 showmigrations:
