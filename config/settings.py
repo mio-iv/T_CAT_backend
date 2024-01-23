@@ -11,6 +11,7 @@ SECRET_KEY = "django-insecure-^n%r8%&(h^o3hhthclq$lie!k21+ocu=jw5gds$pbq*9t0+wo=
 DEBUG = True
 ALLOWED_HOSTS = ["*"]
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+OPENAI_MODEL = os.getenv("OPENAI_MODEL")
 
 os.environ["DJANGO_SETTINGS_MODULE"] = "config.settings"
 

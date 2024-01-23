@@ -1,9 +1,8 @@
 import openai
 from openai import OpenAI
-import os
-from config.settings import OPENAI_API_KEY
+from config.settings import OPENAI_API_KEY, OPENAI_MODEL
 from T_CAT.utils import create_message
-
+import T_CAT.consts as consts
 
 class OpenAIRequest:
 
@@ -28,12 +27,11 @@ class OpenAIRequest:
         try:
 
             chat_completion = client.chat.completions.create(
-                model="gpt-3.5-turbo",
+                model=OPENAI_MODEL,
                 messages=[{"role": "user", "content": content}],    # TODO: contentが配列の場合
-                max_tokens=100,
+                max_tokens=consts.MAX_TOKENS,
                 # stream=True,  # これをTrueにすると、流れるようにメッセージが表示できる。
             )
-
             """ stream=True,
             for chunk in chat_completion:
                 if chunk.choices[0].delta.content is not None:
