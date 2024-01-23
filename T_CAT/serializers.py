@@ -5,6 +5,7 @@ from rest_framework import serializers
 from rest_framework.exceptions import APIException
 
 from T_CAT import models
+from T_CAT.requests import OpenAIRequest
 
 
 class OpenAIAPISaveMixin:
@@ -46,13 +47,8 @@ class OpenAIAPIBatchUpdateSerializer(
     def to_internal_value(self, data):
         "デシリアライズ（DB保存前（の際に呼ばれる)"
         data = super().to_internal_value(data)
-        
-        # この時にchatgptを呼び、output_messageにレスポンスを格納する。
 
-        data["output_message"] = ""
+        Request = OpenAIRequest(data)
+        data["output_message"] = Request.get_output_message()
 
-        return super().to_internal_value(data)
-    
-    def to_representation(self, instance):
-        data = super().to_representation(instance)
-        return super().to_representation(instance)
+        return data
